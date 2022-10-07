@@ -14,7 +14,9 @@ temp = soup.find_all('div', attrs={'class': 'item weather'})
 #     print(span)
 
 
-for obj in temp:
-    item = obj.find('span').find('span')
-    print(item.contents[0])
-  
+for i in temp:
+    span = i.find('span').find_all('span')
+    print(f"Max {span[0].contents[0]}")
+    print(f"Min {span[2].contents[0]}")
+    print(span)
+      
