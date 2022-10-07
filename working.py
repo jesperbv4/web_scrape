@@ -25,3 +25,5 @@ if __name__ == "__main__":
     }
     print_dict(test_dict) 
     print(enum_selector(test_dict, selected()))
+
+
