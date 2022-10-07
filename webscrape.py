@@ -14,7 +14,7 @@ temp = soup.find_all('div', attrs={'class': 'item weather'})
 #     print(span)
 
 
-
-for span in temp:
-    print(span.text)
+for obj in temp:
+    item = obj.find('span').find('span')
+    print(item.contents[0])
   
