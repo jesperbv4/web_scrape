@@ -1,4 +1,4 @@
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright 
 import requests
 from bs4 import BeautifulSoup
 
@@ -25,30 +25,15 @@ def data_extract(results):
     res = {cities[i]: links[i] for i in range(len(cities))}
     return res
 
-
-#Skriver ut nycklarna i ett lexikon med ett siffervärde
-def print_dict(a_dict):
-    for count, key in enumerate(a_dict, start=1):   #för alla nycklar i ett lexikon
-        print(f"{count:>5}) {key}")                    #count är siffran, key är nyckeln
-
-#Kollar om ett sifferval "selected" finns och använd dess värde
-def selector(a_dict, selected):
-    for count, key in enumerate(a_dict, start=1):   #för alla nycklar i ett lexikon 
-        if selected == str(count):                  #om siffervalet finns    
-            return a_dict[key]                      #returnera värdet av den nyckeln
-
-#Frågar om ett val och returnerar inputen
-def selected():
-    return input(f"Ange val:")
-    
-
 if __name__ == "__main__":
-    standard_input= ''
+    standard_input= ''  #Behövs för ett tillägg jag använder
     data = req_with_cookie(get_cookie_playwright())
     soup = BeautifulSoup(data.text, 'html.parser')
-    results_län = soup.find('div', attrs={'class':'link-list'}).find_all('a', attrs={'class': 'link'}) #22 element av värde
-    res = (data_extract(results_län)) 
-    print_dict(res)
-    print(selector(res, selected()))
+    results_län = soup.find('div', attrs={'class':'link-list'}).find_all('a', attrs={'class': 'link'})
+    res = (data_extract(results_län))   #Ett lexikon som vi vill skriva ut med enumerate
+    for item in res:                  
+        print(f"{item:>25}: {res[item]:^15}")   #testutskrift
    
-    
+
+""" Du kan behöva importera playwright
+    Kör: pip install playwright         """
