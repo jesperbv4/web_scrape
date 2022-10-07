@@ -23,5 +23,4 @@ if __name__ == "__main__":
     res = (data_extract(results_län))   #Ett lexikon som vi vill skriva ut med enumerate
     for item in res:                  
         print(f"{item:>25}: {res[item]:^15}")   #testutskrift
-   
-
+    
