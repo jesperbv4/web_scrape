@@ -7,14 +7,14 @@ def indexify(dict):
     return y
 
 def print_index(dict):
-    for index, key in indexify(xs):
+    for index, key in indexify(dict):
         print(f"{index}) {key}")
 
 def choose_dict(dict):
     print_index(dict)
     while True:
         selected = int(select())
-        for index, key in indexify(xs):
+        for index, key in indexify(dict):
             if selected == index:
                 return dict[key]
 
