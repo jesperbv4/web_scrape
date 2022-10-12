@@ -48,14 +48,16 @@ def choose_dict(dict):
 def select():
     return input("Option: ")
 
-def new_page(url):
-    res = (data_extract(url))
-    new_url = url + choose_dict(res)
+def new_page(url, snippet):
+    new_url = url + snippet
     return new_url
 
 def main():
     url = 'https://www.klart.se'
-    new_page(url)
+    
+
+    
+    
 
 
 
