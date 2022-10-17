@@ -10,6 +10,7 @@ def merge(a, b, list=False, dict=False, tuple=False):
         else: 
             return None
 
+
 def indexify(dict):
     y = enumerate(dict, start=1)
     return y
