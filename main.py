@@ -16,18 +16,39 @@ def scraper(url):
 #Extraherar län och ort
 def data_extract(url):
     results = scraper(url).find('div', attrs={'class':'link-list'}).find_all('a', attrs={'class': 'link'})
-    cities = [results[i].contents[0] for i in range(len(results)-1)]  
-    links = [results[i].get('href') for i in range(len(results)-1)]
-    city_links = {cities[i]: links[i] for i in range(len(cities))}
-    return city_links
+    return results
+
+def places(url):
+    results = data_extract(url)
+    return[results[i].contents[0] for i in range(len(results)-1)]
+
+def href(url):
+    results = data_extract(url)
+    return [results[i].get('href') for i in range(len(results)-1)]
 
 #Extraherar max och min temperatur från dagens datum och 14 dagar frammåt
 def temp_extract(url):
     results = scraper(url).find_all('div', attrs={'class': 'item weather'})
-    temp_high = [int(results[i].find('span').find_all('span')[0].contents[0][0:-1]) for i in range(len(results)-1)]
-    temp_low =  [int(results[i].find('span').find_all('span')[2].contents[0][0:-1]) for i in range(len(results)-1)]
-    temp = [(temp_high[i], temp_low[i]) for i in range(len(temp_high))]
-    return temp
+    return results
+
+def temp_high(url):
+    results = temp_extract(url)
+    return [int(results[i].find('span').find_all('span')[0].contents[0][0:-1]) for i in range(len(results)-1)]
+    
+
+def temp_low(url):
+    results = temp_extract(url)
+    return [int(results[i].find('span').find_all('span')[2].contents[0][0:-1]) for i in range(len(results)-1)]
+
+def merge(a, b, list=False, dict=False, tuple=False):
+        if dict == True:
+            return {a[i]: b[i] for i in range(len(a))}
+        elif list == True:
+            return [[a[i], b[i]] for i in range(len(a))]
+        elif tuple == True:
+            return [(a[i], b[i]) for i in range(len(a))]
+        else: 
+            return None
 
 def indexify(dict):
     y = enumerate(dict, start=1)
@@ -54,12 +75,9 @@ def new_page(url, snippet):
 
 def main():
     url = 'https://www.klart.se'
-    
 
     
     
-
-
 
 if __name__ == "__main__":
     main()
