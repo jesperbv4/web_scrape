@@ -58,10 +58,13 @@ def print_index(dict):
 
 def choose_dict(dict):
     print_index(dict)
+    print('\nr) Return\n')
     while True:
         selected = select()
         for index, key in indexify(dict):
-            if selected == str(index) or selected.capitalize() == key:
+            if selected == 'r':
+                return dict
+            elif selected == str(index) or selected.capitalize() == key:
                 return dict[key]
 
 def select():
@@ -91,8 +94,15 @@ def menu(options, prompt):
         else:
             continue
 
-def user_actions(prompt, options):
-    menu(prompt, options)
+def user_actions(options, prompt):
+    opt = menu(options, prompt)
+    for index, key in options:
+        if opt == index or opt == key:
+            return key
+        
+             
+
+
 
 
 def main():
@@ -108,7 +118,42 @@ def main():
     data = choose_dict(dag)
     print(f'\n{data}\n')
     print('\nVad vill du göra?\n')
-    menu({'a': 'Gå tillbaka', 'b': 'Välj ny dag', 'c': 'Välj ny ort', 'd': 'Avsluta'}, 'Val: ',)
+    options = {'Gå tillbaka':'back', 'Välj ny dag':'day', 'Välj ny ort':'place', 'Avsluta':'end'}
+    val = choose_dict(options)
+    while True:
+        if val == 'back':
+            data = choose_dict(dag)
+            print(f'\n{data}\n')
+            print('\nVad vill du göra?\n')
+            val = choose_dict(options)
+        elif val == 'day':
+            print('\nVälj dag\n')
+            dag = choose_dict(all_data)
+            print('\nVad vill du se?\n')
+            data = choose_dict(dag)
+            print(f'\n{data}\n')
+            print('\nVad vill du göra?\n')
+            val = choose_dict(options)
+        elif val == 'place':
+            url = 'https://www.klart.se'
+            print('\nVälj län:\n')
+            län = url + new_page(url)
+            print('\nVälj ort:\n')
+            ort = url + new_page(län)
+            all_data = temp_extract(ort)
+            print('\nVälj dag\n')
+            dag = choose_dict(all_data)
+            print('\nVad vill du se?\n')
+            data = choose_dict(dag)
+            print(f'\n{data}\n')
+            print('\nVad vill du göra?\n')
+            options = {'Gå tillbaka':'back', 'Välj ny dag':'day', 'Välj ny ort':'place', 'Avsluta':'end'}
+            val = choose_dict(options)
+        elif val == 'end':
+            return None
+
+
+
 
 
 
@@ -116,3 +161,4 @@ if __name__ == "__main__":
     main()
 
 # print(choose_dict(choose_dict(temp_extract('https://www.klart.se/se/uppsala-l%C3%A4n/v%C3%A4der-uppsala/'))))
+
