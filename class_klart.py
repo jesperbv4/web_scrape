@@ -38,7 +38,8 @@ class Klart_details():
         self.session = requests.Session()
         self.snippet = snippet
         self.soup = self.page()
-        self.data = self.soup.find_all(attrs={'class': 'details visible-medium-up'})
+        self.data = self.extract_data()
+        
 
     def url(self):
         return self.baseUrl + self.snippet
@@ -56,6 +57,10 @@ class Klart_details():
             print(page)
             return(page)
         return page  
+    
+    def extract_data(self):
+        data = self.soup.find_all(attrs={'class': 'details visible-medium-up'})
+        return data
 
     def get_day(self, n=-1):
         day = [self.data[i].find_all(attrs={'class':'long'})[0].contents[0] for i in range(len(self.data))]
@@ -83,28 +88,33 @@ class Klart_details():
     def get_sundown(self):
         sun_down = [self.data[i].find(attrs={'class': 'item sun-times'}).find_all('span')[1].contents[0] for i in range(len(self.data))]
         return sun_down
+    
+    def get_rain(self):
+        rain = [self.data[i].find(attrs={'class': 'details'}).find_all('span')[1].contents[0] for i in range(len(self.data))]
+        return rain
+        
+    def get_chance_of_rain(self):
+        chance_of_rain = [self.data[i].find(attrs={'class': 'details'}).find_all('span')[3].contents[0] for i in range(len(self.data))]
+        return chance_of_rain
+
+    def get_wind(self):
+        wind = [self.data[i].find(attrs={'class': 'details'}).find_all('span')[5].contents[0] for i in range(len(self.data))]
+        return wind
+
+    def get_thunder(self):
+        thunder = [self.data[i].find(attrs={'class': 'details'}).find_all('span')[7].contents[0] for i in range(len(self.data))]
+        return thunder
+
+    def get_moon(self):
+        moon = [self.data[i].find(attrs={'class': 'details'}).find_all('span')[9].contents[0] for i in range(len(self.data))]
+        return moon
+
+    def get_uv_index(self):
+        uv_index = [self.data[i].find(attrs={'class': 'details'}).find_all('span')[11].contents[0] for i in range(len(self.data))]
+        return uv_index
 
     def get_summary(self, n):
         return {'Datum': self.get_date(), 'Max': self.get_temphigh(n)}
-        
-
-        data_dict = {}
-        for n in range(len(scrape_details)):
-            day = scrape_details[n].find_all(attrs={'class': 'long'})[0].contents[0]
-            date = scrape_details[n].find_all(attrs={'class': 'item time'})[0].contents[0]
-            temp_high = scrape_details[n].find_all(attrs={'aria-label': 'Max temperatur'})[0].contents[0]
-            temp_low =  scrape_details[n].find_all(attrs={'aria-label': 'Min temperatur'})[0].contents[0]
-            sun_up = scrape_details[n].find(attrs={'class': 'item sun-times'}).find_all('span')[0].contents[0]
-            sun_down = scrape_details[n].find(attrs={'class': 'item sun-times'}).find_all('span')[1].contents[0]
-
-            data_dict[day+date] = {'Max temp': temp_high, 'Min tem': temp_low, 'Soluppgång': sun_up, 'Solnedgång': sun_down}
-            
-            scrape_row = scrape_details[n].find_all(attrs={'class': 'row'})
-            
-            for x in range(len(scrape_row)):
-                data_dict[day+date][scrape_row[x].find_all('span')[0].contents[0]] = scrape_row[x].find_all('span')[1].contents[0]
-        return data_dict
-
 
 
 def merge(a, b, list=False, dict=False, tuple=False):

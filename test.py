@@ -1,5 +1,4 @@
-from sympy import det
-from class_scrape import Klart, Klart_details
+from class_klart import Klart, Klart_details
 
 
 def indexify(dict):
@@ -26,8 +25,12 @@ def main():
     page_main = Klart()
     page_ort = Klart(value(page_main.get_places()))
     details = Klart_details(value(page_ort.get_places()))
-    print(details.get_summary(2))
+    print(details.get_date())
+    print(details.get_day())
+    print(details.get_sunup())
+    print(details.get_sundown())
     print(details.get_temphigh())
+    print(details.get_templow())
    
     
 
