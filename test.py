@@ -31,6 +31,7 @@ def main():
     print(details.get_sundown())
     print(details.get_temphigh())
     print(details.get_templow())
+    print(details.get_wind())
    
     
 
