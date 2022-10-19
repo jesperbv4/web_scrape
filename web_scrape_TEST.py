@@ -92,8 +92,7 @@ def menu(options, prompt):
             continue
 
 def user_actions(prompt, options):
-   
-        menu(prompt, options)
+    menu(prompt, options)
 
 
 def main():
@@ -109,7 +108,7 @@ def main():
     data = choose_dict(dag)
     print(f'\n{data}\n')
     print('\nVad vill du göra?\n')
-    menu({'a': 'Gå tillbaka', 'b': 'Välj ny dag', 'c': 'Välj ny ort', 'd': 'Avsluta'}, input('Val: '),)
+    menu({'a': 'Gå tillbaka', 'b': 'Välj ny dag', 'c': 'Välj ny ort', 'd': 'Avsluta'}, 'Val: ',)
 
 
 
