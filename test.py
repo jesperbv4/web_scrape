@@ -1,14 +1,5 @@
-from class_scrape import Klart
-
-def merge(a, b, list=False, dict=False, tuple=False):
-        if dict == True:
-            return {a[i]: b[i] for i in range(len(a))}
-        elif list == True:
-            return [[a[i], b[i]] for i in range(len(a))]
-        elif tuple == True:
-            return [(a[i], b[i]) for i in range(len(a))]
-        else: 
-            return None
+from sympy import det
+from class_scrape import Klart, Klart_details
 
 
 def indexify(dict):
@@ -19,7 +10,7 @@ def print_index(dict):
     for index, key in indexify(dict):
         print(f"{index}) {key}")
 
-def choose_dict(dict):
+def value(dict):
     print_index(dict)
     while True:
         selected = select()
@@ -30,19 +21,21 @@ def choose_dict(dict):
 def select():
     return input("Option: ")
 
-def new_page(snippet=''):
-    page = Klart(snippet)
-    return page
 
 def main():
-    page = new_page()
-    län = new_page(choose_dict(merge(page.get_places(), page.get_href(), dict=True)))
-    ort = new_page(choose_dict(merge(län.get_places(), län.get_href(), dict=True)))
-    temp = merge(ort.temp_high(), ort.temp_low(), tuple=True)
-    print(temp)
-
-
+    page_main = Klart()
+    page_ort = Klart(value(page_main.get_places()))
+    details = Klart_details(value(page_ort.get_places()))
+    print(details.get_summary(2))
+    print(details.get_temphigh())
+   
     
+
+
+
+    # page = Klart_details('/se/uppsala-län/väder-uppsala/')
+    # print(page.get_temphigh(),)
+
 
 if __name__ == "__main__":
     main()
