@@ -1,4 +1,4 @@
-from class_klart import Klart, Klart_details
+from class_klart import Klart, Klart_details, merge
 
 
 def indexify(dict):
@@ -20,18 +20,33 @@ def value(dict):
 def select():
     return input("Option: ")
 
+def print_out(a_list):
+    for element in a_list:
+        print(f"{element}")
+    
+
+def labels():
+    labels = [
+        'Dag',
+        'Datum',
+        'Max',
+        'Min',
+        'Soluppgång',
+        'Solnednång',
+        'Regn',
+        'Åska',
+        'Vind',
+        'Månfas',
+        'UV-index',
+        ]
+    return labels  
 
 def main():
     page_main = Klart()
     page_ort = Klart(value(page_main.get_places()))
     details = Klart_details(value(page_ort.get_places()))
-    print(details.get_date())
-    print(details.get_day())
-    print(details.get_sunup())
-    print(details.get_sundown())
-    print(details.get_temphigh())
-    print(details.get_templow())
-    print(details.get_wind())
+    print(details.get_summary())
+    
    
     
 
