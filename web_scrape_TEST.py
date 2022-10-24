@@ -52,6 +52,7 @@ def indexify(dict):
     y = enumerate(dict, start=1)
     return y
 
+#Printar data i terminalen
 def print_index(dict):
     for index, key in indexify(dict):
         print(f"{index}) {key}")
@@ -160,5 +161,8 @@ def main():
 if __name__ == "__main__":
     main()
 
+<<<<<<< HEAD
 # print(choose_dict(choose_dict(temp_extract('https://www.klart.se/se/uppsala-l%C3%A4n/v%C3%A4der-uppsala/'))))
 
+=======
+>>>>>>> e6da97cd39b52dc8365bc4440fe2c05d89dd8fd3
