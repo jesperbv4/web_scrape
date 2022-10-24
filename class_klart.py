@@ -102,7 +102,7 @@ class Klart_details():
             return sun_up
 
     def get_sundown(self, n=-1):
-        sun_down = [self.data[i].find(attrs={'class': 'item sun-times'}).find_all('span')[1].contents[0][8:] for i in range(len(self.data))]
+        sun_down = [self.data[i].find(attrs={'class': 'item sun-times'}).find_all('span')[1].contents[0][4:] for i in range(len(self.data))]
         if n >= 0 and n < 14:
 
             return sun_down[int(n)]
@@ -134,7 +134,7 @@ class Klart_details():
             return wind
 
     def get_thunder(self, n=-1):
-        thunder = [self.data[i].find(attrs={'class': 'details'}).find_all('span')[7].contents[0] for i in range(len(self.data))]
+        thunder = [self.data[i].find(attrs={'class': 'details'}).find_all('span')[7].contents[0][5:] for i in range(len(self.data))]
         if n >= 0 and n < 14:
             return thunder[int(n)]
         else:
@@ -170,15 +170,21 @@ class Klart_details():
                 self.get_uv_index(n)
             ]
             return summary_day
+        elif n == 14:
+            return self.get_summary()
         else:
             return None
     
     def get_summary(self):
         summary = [self.get_summary_day(i) for i in range(13)]
-        return summary  
-            
+        return summary      
 
+    def choose_day(self):
+        days = {self.get_day()[i]+self.get_date()[i]: i for i in range(len(self.get_day()))}
+        
+        return days
 
+        
 def merge(a, b, list=False, dict=False, tuple=False):
     if dict == True:
         return {a[i]: b[i] for i in range(len(a))}

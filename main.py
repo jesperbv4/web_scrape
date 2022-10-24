@@ -1,54 +1,5 @@
-import requests
-from bs4 import BeautifulSoup
-
-#Skickar en get.requset och returnerar svaret
-def response(url):
-    url = url
-    s = requests.Session()
-    r = s.get(url)
-    return r
-
-#Skapar ett soup objekt från svaret av response
-def scraper(url):
-    soup = BeautifulSoup(response(url).text, 'html.parser')
-    return soup
-
-#Extraherar län och ort
-def data_extract(url):
-    results = scraper(url).find('div', attrs={'class':'link-list'}).find_all('a', attrs={'class': 'link'})
-    return results
-
-def places(url):
-    results = data_extract(url)
-    return[results[i].contents[0] for i in range(len(results)-1)]
-
-def href(url):
-    results = data_extract(url)
-    return [results[i].get('href') for i in range(len(results)-1)]
-
-#Extraherar max och min temperatur från dagens datum och 14 dagar frammåt
-def temp_extract(url):
-    results = scraper(url).find_all('div', attrs={'class': 'item weather'})
-    return results
-
-def temp_high(url):
-    results = temp_extract(url)
-    return [int(results[i].find('span').find_all('span')[0].contents[0][0:-1]) for i in range(len(results)-1)]
-    
-
-def temp_low(url):
-    results = temp_extract(url)
-    return [int(results[i].find('span').find_all('span')[2].contents[0][0:-1]) for i in range(len(results)-1)]
-
-def merge(a, b, list=False, dict=False, tuple=False):
-        if dict == True:
-            return {a[i]: b[i] for i in range(len(a))}
-        elif list == True:
-            return [[a[i], b[i]] for i in range(len(a))]
-        elif tuple == True:
-            return [(a[i], b[i]) for i in range(len(a))]
-        else: 
-            return None
+from class_klart import Klart, Klart_details, merge
+from tabulate import tabulate
 
 def indexify(dict):
     y = enumerate(dict, start=1)
@@ -58,7 +9,7 @@ def print_index(dict):
     for index, key in indexify(dict):
         print(f"{index}) {key}")
 
-def choose_dict(dict):
+def value(dict):
     print_index(dict)
     while True:
         selected = select()
@@ -69,15 +20,64 @@ def choose_dict(dict):
 def select():
     return input("Option: ")
 
-def new_page(url, snippet):
-    new_url = url + snippet
-    return new_url
+def print_table(a_list):
+    col_names = labels()
+    data = a_list
+    print(tabulate(data, headers=col_names, tablefmt="fancy_grid"))
+
+def labels():
+    labels = [
+        'Dag',
+        'Datum',
+        'Max',
+        'Min',
+        'Soluppgång',
+        'Solnednång',
+        'Regn',
+        'Åska',
+        'Vind',
+        'Månfas',
+        'UV-index',
+        ]
+    return labels  
+
+def menu(details):
+    options = {'Gå tillbaka':'back', 'Välj ny ort':'place', 'Avsluta':'end'}
+    val = value(options)
+    if val == 'back':
+        menu2(details)
+    elif val == 'place':
+        main()
+    elif val == 'end':
+        return None
+            
+
+        
+
+def menu2(details):
+    options2 = {'En dag': True, '14 dagar': False, 'Avsluta': 'end'}
+    val_dag = value(options2)
+    if val_dag == True:
+        dag = details.get_summary_day(value(details.choose_day()))
+        print_table([dag])
+        menu(details)
+    elif val_dag == False:
+        dag = details.get_summary()
+        print_table(dag)
+        menu(details)
+    elif val_dag == 'end':
+        return None
+    
+            
+    
+
 
 def main():
-    url = 'https://www.klart.se'
+    page_main = Klart()
+    page_ort = Klart(value(page_main.get_places()))
+    details = Klart_details(value(page_ort.get_places()))
+    menu2(details) 
 
-    
-    
 
 if __name__ == "__main__":
     main()
